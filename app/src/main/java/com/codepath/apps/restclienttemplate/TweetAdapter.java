@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     // pass in Tweets array in constructor
@@ -51,7 +53,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         holder.tvScreenName.setText("@" + tweet.user.screenName);
         holder.tvRelativeTime.setText(tweet.relative_time);
 
-        Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
+        int radius = 70; // corner radius, higher value = more rounded
+        int margin = 10; // crop margin, set to 0 for corners with no crop
+
+        Glide.with(context).load(tweet.user.profileImageUrl)
+                .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(radius, margin))).into(holder.ivProfileImage);
 
 
     }
@@ -79,4 +85,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
         }
     }
+
+
 }

@@ -12,21 +12,31 @@
         android:id="@+id/etCompose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minLines="5"
+        android:padding="5dp"
         android:maxLength="140"
-        android:layout_alignParentTop="true"
+        android:minLines="5"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="100dp"
         android:hint="@string/etCompose_hint"
-        android:inputType="text" />
+        android:inputType="textMultiLine" />
+
+
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/etCompose"
+        android:text="0/140" />
 
     <Button
         android:id="@+id/btnCompose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvCount"
         android:onClick="onTweet"
         android:text="@string/btnCompose_text" />
 </RelativeLayout>
