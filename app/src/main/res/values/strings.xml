@@ -6,4 +6,8 @@
     <string name="intent_scheme">oauth</string>
     <string name="intent_host">cprest</string>
 
+    <!--Compose-->
+    <string name="etCompose_hint">What\'s happening?</string>
+    <string name="btnCompose_text">Tweet</string>
+
 </resources>

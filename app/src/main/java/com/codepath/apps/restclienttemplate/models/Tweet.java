@@ -4,11 +4,13 @@ import android.text.format.DateUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+@Parcel
 public class Tweet {
     // list out the attributes
     public String body;
@@ -29,12 +31,14 @@ public class Tweet {
             long dateMillis = sf.parse(rawJsonDate).getTime();
             relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
                     System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
-            String purge[] = {" minutes ago", " minute ago", " hours ago", " hour ago"};
+            String purge[] = {" seconds ago", " second ago", " minutes ago", " minute ago", " hours ago", " hour ago"};
             for (int i=0; i<purge.length; i++){
-                if (purge[i].startsWith("m")){
+                if (purge[i].startsWith(" m")){
                     relativeDate = relativeDate.replace(purge[i], "m");
-                } else {
+                } else if (purge[i].startsWith(" h")){
                     relativeDate = relativeDate.replace(purge[i], "h");
+                } else {
+                    relativeDate = relativeDate.replace(purge[i], "s");
                 }
 
             }
