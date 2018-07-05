@@ -31,7 +31,10 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/ivProfileImage"
-        android:text="Body" />
+        android:text="Body"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColorLink="@color/blue"/>
 
     <TextView
         android:id="@+id/tvScreenName"

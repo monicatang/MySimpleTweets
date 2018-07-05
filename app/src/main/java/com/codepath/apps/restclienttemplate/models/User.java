@@ -16,7 +16,7 @@ public class User {
     public User() {}
 
     //deserialize JSON
-    public static User fromJSON(JSONObject json) throws JSONException{
+    public static User fromJSON(JSONObject json) throws JSONException {
         User user = new User();
 
         //extract and fill in values
