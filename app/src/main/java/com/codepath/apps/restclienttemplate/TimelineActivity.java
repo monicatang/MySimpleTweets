@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -31,6 +32,7 @@ public class TimelineActivity extends AppCompatActivity {
     ArrayList<Tweet> tweets;
     @BindView(R.id.rvTweet) RecyclerView rvTweets;
     @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.pbLoadTimeline) ProgressBar pbLoadTimeline;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -42,10 +44,14 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+
         client = TwitterApp.getRestClient(this);
 
         //resolve view lookups
         ButterKnife.bind(this);
+
+        pbLoadTimeline.setVisibility(ProgressBar.VISIBLE);
 
         //init Array List (data source)
         tweets = new ArrayList<>();
@@ -74,6 +80,7 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        pbLoadTimeline.setVisibility(ProgressBar.INVISIBLE);
 
 
     }

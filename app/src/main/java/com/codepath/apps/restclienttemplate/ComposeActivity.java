@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -28,6 +29,7 @@ public class ComposeActivity extends AppCompatActivity {
     TwitterClient client;
     Tweet tweet;
     @BindView(R.id.tvCount) TextView tvCount;
+    @BindView(R.id.pbSendTweet) ProgressBar pbSendTweet;
 
     private final TextWatcher etWatcher = new TextWatcher() {
 
@@ -54,6 +56,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     public void onTweet(View v){
         Log.d("tweet", "Processing tweet");
+        pbSendTweet.setVisibility(ProgressBar.VISIBLE);
         String message = etCompose.getText().toString();
 
         client.sendTweet(message, new JsonHttpResponseHandler(){
@@ -64,6 +67,7 @@ public class ComposeActivity extends AppCompatActivity {
                     tweet = Tweet.fromJSON(response);
                     intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                     setResult(RESULT_OK, intent);
+                    pbSendTweet.setVisibility(ProgressBar.INVISIBLE);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
