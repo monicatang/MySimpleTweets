@@ -49,6 +49,8 @@ public class Tweet {
         return relativeDate;
     }
 
+    public Tweet(){}
+
     // deserialize JSON
     public static Tweet fromJSON(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();

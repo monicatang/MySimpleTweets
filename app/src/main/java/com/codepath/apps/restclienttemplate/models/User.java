@@ -13,6 +13,7 @@ public class User {
     public String screenName;
     public String profileImageUrl;
 
+    public User() {}
 
     //deserialize JSON
     public static User fromJSON(JSONObject json) throws JSONException{
