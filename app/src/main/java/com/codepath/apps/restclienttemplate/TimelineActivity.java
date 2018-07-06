@@ -83,6 +83,7 @@ public class TimelineActivity extends AppCompatActivity {
         pbLoadTimeline.setVisibility(ProgressBar.INVISIBLE);
 
 
+
     }
 
     public void fetchTimelineAsync(int page) {

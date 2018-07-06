@@ -52,6 +52,7 @@ public class ComposeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         client = new TwitterClient(ComposeActivity.this);
         etCompose.addTextChangedListener(etWatcher);
+        etCompose.setText(getIntent().getStringExtra("message"));
     }
 
     public void onTweet(View v){

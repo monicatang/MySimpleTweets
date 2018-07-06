@@ -19,9 +19,11 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="userName"
-        android:textStyle="bold"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvBody"
@@ -42,7 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/tvUserName"
-        android:text="screenName" />
+        android:layout_marginBottom="5dp"
+        android:text="screenName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small" />
 
     <TextView
         android:id="@+id/tvRelativeTime"
@@ -51,5 +55,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:text="relativeTime" />
+
+    <TextView
+        android:id="@+id/tvReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_alignStart="@+id/tvUserName"
+        android:text="Reply"
+        android:textColor="@color/blue"
+        android:layout_marginBottom="5dp"/>
 
 </RelativeLayout>

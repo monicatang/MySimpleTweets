@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     // pass in Tweets array in constructor
 
     private List<Tweet> mTweets;
-    Context context;
+    public Context context;
 
     public TweetAdapter(List<Tweet> tweets){
         mTweets = tweets;
@@ -69,13 +70,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
     // create ViewHolder class
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
         @BindView(R.id.tvUserName) TextView tvUsername;
         @BindView(R.id.tvBody) TextView tvBody;
         @BindView(R.id.tvScreenName) TextView tvScreenName;
         @BindView(R.id.tvRelativeTime) TextView tvRelativeTime;
-//
+        @BindView(R.id.tvReply) TextView tvReply;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -83,7 +85,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             //resolve view lookups
             ButterKnife.bind(this, itemView);
 
+            tvReply.setOnClickListener(this);
         }
+
+        //implement reply button
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(v.getContext(), ComposeActivity.class);
+            i.putExtra("message", tvScreenName.getText().toString());
+            v.getContext().startActivity(i);
+        }
+
+
     }
 
     // Clean all elements of the recycler
