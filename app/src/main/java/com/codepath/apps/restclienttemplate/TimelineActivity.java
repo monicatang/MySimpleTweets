@@ -56,7 +56,16 @@ public class TimelineActivity extends AppCompatActivity {
         //init Array List (data source)
         tweets = new ArrayList<>();
         // construct adapter from data source
-        tweetAdapter = new TweetAdapter(tweets);
+        tweetAdapter = new TweetAdapter(tweets, new TweetAdapter.ClickListener() {
+            @Override public void onPositionClicked(int position) {
+                // callback performed on click
+                Log.d("Details", "onPositionClicked TimelineActivity");
+            }
+
+            @Override public void onLongClicked(int position) {
+                // callback performed on click
+            }
+        });
         // recyclerView setup (layout manager, use adapter)
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(tweetAdapter);
@@ -96,6 +105,7 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
             // Remember to CLEAR OUT old items before appending in the new ones
                 tweetAdapter.clear();
+                tweetAdapter.notifyDataSetChanged();
                 tweets.clear();
                 // ...the data has come back, add new items to your adapter...
 
@@ -114,6 +124,7 @@ public class TimelineActivity extends AppCompatActivity {
 
                 }
                 tweetAdapter.addAll(tweets);
+                tweetAdapter.notifyDataSetChanged();
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
             }
@@ -157,6 +168,7 @@ public class TimelineActivity extends AppCompatActivity {
         }
 
     }
+
 
     private void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler(){

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import org.parceler.Parcels;
+
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,9 +29,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
     private List<Tweet> mTweets;
     public Context context;
+    private final ClickListener listener;
 
-    public TweetAdapter(List<Tweet> tweets){
+    public interface ClickListener {
+
+        void onPositionClicked(int position);
+
+        void onLongClicked(int position);
+    }
+
+    public TweetAdapter(List<Tweet> tweets, ClickListener listener){
         mTweets = tweets;
+        this.listener = listener;
     }
 
     //for each row, inflate layout and cache references into ViewHolder
@@ -39,7 +52,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
-        ViewHolder viewHolder = new ViewHolder(tweetView);
+        ViewHolder viewHolder = new ViewHolder(tweetView, mTweets, listener);
         return viewHolder;
     }
 
@@ -71,45 +84,71 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     // create ViewHolder class
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
-        @BindView(R.id.tvUserName) TextView tvUsername;
-        @BindView(R.id.tvBody) TextView tvBody;
-        @BindView(R.id.tvScreenName) TextView tvScreenName;
-        @BindView(R.id.tvRelativeTime) TextView tvRelativeTime;
-        @BindView(R.id.tvReply) TextView tvReply;
+        @BindView(R.id.ivProfileImage)
+        ImageView ivProfileImage;
+        @BindView(R.id.tvUserName)
+        TextView tvUsername;
+        @BindView(R.id.tvBody)
+        TextView tvBody;
+        @BindView(R.id.tvScreenName)
+        TextView tvScreenName;
+        @BindView(R.id.tvRelativeTime)
+        TextView tvRelativeTime;
+        @BindView(R.id.tvReply)
+        TextView tvReply;
+        private List<Tweet> mTweets;
+        private WeakReference<ClickListener> listenerRef;
 
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, List<Tweet> mTweets, ClickListener listener) {
             super(itemView);
+            this.mTweets = mTweets;
+            listenerRef = new WeakReference<>(listener);
 
             //resolve view lookups
             ButterKnife.bind(this, itemView);
 
+            itemView.setOnClickListener(this);
             tvReply.setOnClickListener(this);
+
         }
 
         //implement reply button
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(v.getContext(), ComposeActivity.class);
-            i.putExtra("message", tvScreenName.getText().toString());
-            v.getContext().startActivity(i);
+            if (v.getId() == R.id.tvReply) {
+                Log.i("Details", "clicked reply");
+                Intent i = new Intent(v.getContext(), ComposeActivity.class);
+                i.putExtra("message", tvScreenName.getText().toString());
+                v.getContext().startActivity(i);
+            } else {
+                Log.i("Details", "clicked itemview");
+                int position = getAdapterPosition();
+                //ensure position is valid
+                if (position != RecyclerView.NO_POSITION) {
+                    //get tweet at the position
+                    Tweet tweet = mTweets.get(position);
+                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                    //serialize tweet using parceler
+                    intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                    //show activity
+                    v.getContext().startActivity(intent);
+                }
+            }
+
+             listenerRef.get().onPositionClicked(getAdapterPosition());
         }
 
 
     }
-
     // Clean all elements of the recycler
     public void clear() {
         mTweets.clear();
-        notifyDataSetChanged();
     }
 
     // Add a list of items -- change to type used
     public void addAll(List<Tweet> list) {
         mTweets.addAll(list);
-        notifyDataSetChanged();
     }
-
 
 }
