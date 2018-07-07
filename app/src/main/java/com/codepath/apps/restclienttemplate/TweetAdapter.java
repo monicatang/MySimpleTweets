@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -30,6 +31,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     private List<Tweet> mTweets;
     public Context context;
     private final ClickListener listener;
+    private static Activity activity;
+    public static final int COMPOSE_REQUEST_CODE = 20;
 
     public interface ClickListener {
 
@@ -38,9 +41,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         void onLongClicked(int position);
     }
 
-    public TweetAdapter(List<Tweet> tweets, ClickListener listener){
+    public TweetAdapter(List<Tweet> tweets, ClickListener listener, Activity activity){
         mTweets = tweets;
         this.listener = listener;
+        this.activity = activity;
     }
 
     //for each row, inflate layout and cache references into ViewHolder
@@ -120,7 +124,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                 Log.i("Details", "clicked reply");
                 Intent i = new Intent(v.getContext(), ComposeActivity.class);
                 i.putExtra("message", tvScreenName.getText().toString());
-                v.getContext().startActivity(i);
+                activity.startActivityForResult(i, COMPOSE_REQUEST_CODE);
             } else {
                 Log.i("Details", "clicked itemview");
                 int position = getAdapterPosition();
@@ -132,7 +136,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                     //serialize tweet using parceler
                     intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                     //show activity
-                    v.getContext().startActivity(intent);
+                    activity.startActivity(intent);
                 }
             }
 

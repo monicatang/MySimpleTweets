@@ -65,7 +65,8 @@ public class TimelineActivity extends AppCompatActivity {
             @Override public void onLongClicked(int position) {
                 // callback performed on click
             }
-        });
+        },
+         TimelineActivity.this);
         // recyclerView setup (layout manager, use adapter)
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(tweetAdapter);
