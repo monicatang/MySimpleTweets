@@ -29,6 +29,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.tvReply) TextView tvReply;
     @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
     @BindView(R.id.ivRetweet) ImageView ivRetweet;
+    @BindView(R.id.ivHeart) ImageView ivHeart;
 
 
     @Override
@@ -49,7 +50,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         tvBody.setText(tweet.body);
 
         Drawable ic_vector_reTweet = getResources().getDrawable(R.drawable.ic_vector_retweet);
+        Drawable ic_vector_heart = getResources().getDrawable(R.drawable.ic_vector_heart);
         ivRetweet.setImageDrawable(ic_vector_reTweet);
+        ivHeart.setImageDrawable(ic_vector_heart);
 
         int radius = 70; // corner radius, higher value = more rounded
         int margin = 10; // crop margin, set to 0 for corners with no crop
